@@ -5,6 +5,10 @@ import sqlite3
 
 app = Flask(__name__)
 
+@app.route('/')
+def index_page():
+    return '<h1>Welcome to Flask Books App</h1>'
+
 @app.route('/books', methods=['GET'])
 def get_books():
     conn = sqlite3.connect('books.db')
