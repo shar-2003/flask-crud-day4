@@ -20,8 +20,15 @@ clone the git repository using below command
 `git clone https://github.com/rcoem-devops/flask-crud.git`
 
 the cd to the `flask-crud` directory
-run below command
+
+Run below command to create a Table in Database
+
+`python create_table.py`
+
+run below command to start the Flask App
+
 `python app.py`
+
 It will run flask app on port `5000` on `localhost` or `127.0.0.1`
 
 Open browser and hit `http://127.0.0.1:5000/`
