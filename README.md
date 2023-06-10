@@ -33,4 +33,41 @@ It will run flask app on port `5000` on `localhost` or `127.0.0.1`
 
 Open browser and hit `http://127.0.0.1:5000/`
 
+https://github.com/rcoem-devops/flask-crud
+
+
+
+
+
+
+<base_url>/oauth2/auth?scope=orders%20hold-ings&state=%7B%22param%22:%22value%22%7D&redi-rect_uri=http://127.0.0.1&response_type=code&client_id=<oauthID>
+
+
+https://alpha.sasonline.in/oauth2/auth?scope=orders%20hold-ings&state=%7B%22param%22:%22value%22%7D&redi-rect_uri=http://127.0.0.1&response_type=code&client_id=RR369
+
+
+
+
+
+
+docker pull python:3.8-alpine
+
+docker login -u rahulmr
+
+docker run -it -p 5000:5000 -d rahulmr/rknecapp:v1
+
+docker stop
+
+docker rm
+
+
+
+
+pip freeze > requirements.txt
+
+
+
+Check files in docker container
+docker exec -it
+
 
