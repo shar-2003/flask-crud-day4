@@ -1,15 +1,14 @@
 
+FROM python:3.8-alpine
 
-FROM python:3.8-slim-buster
+WORKDIR /app
 
-WORKDIR /python-docker
+COPY requirements.txt /app/requirements.txt
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY . /app/
 
-COPY . .
+RUN pip install -r requirements.txt
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+RUN python create_table.py
 
-EXPOSE 5000
-
+CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
