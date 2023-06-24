@@ -44,3 +44,43 @@ docker rm -f flask
 docker rm -f web
 
 
+docker compose version
+
+docker compose help > help_commands_compose.txt
+
+docker ps -a
+
+docker compose up
+
+docker-compose up
+
+
+
+docker ps -a
+docker stop flask
+docker ps 
+
+docker compose up
+
+docker compose down
+
+docker compose -f docker-compose.1.yml up -d
+docker compose logs -f 
+control + c
+
+docker compose down
+
+docker-compose up
+
+docker compose down
+
+docker co
+
+docker run -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins:alpine
+
+
+java -jar jenkins.war 
+
+
+
+

@@ -2,6 +2,8 @@
 
 import app
 import json
+import warnings
+
 
 def test_create_book():
     with app.app.test_client() as client:
@@ -25,10 +27,10 @@ def test_get_books():
 
 def test_get_book():
     with app.app.test_client() as client:
-        response = client.get('/books/1')
+        response = client.get('/books/2')
         data = json.loads(response.data)
         assert response.status_code == 200
-        assert data['id'] == 1
+        assert data['id'] == 2
         assert data['title'] == 'Test Book'
         assert data['author'] == 'Test Author'
         assert data['published'] == '2022-01-01'

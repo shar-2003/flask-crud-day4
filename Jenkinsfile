@@ -1,43 +1,55 @@
 pipeline {
-agent any
-stages {
-	stage('Build') {
-	parallel {
-		stage('Build') {
-		steps {
-			sh 'echo "building the repo"'
-		}
-		}
-	}
-	}
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "building the repo"'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh "docker build -t flaskapp:${env.BUILD_ID} ."
+            }
+        }
 
-	stage('Test') {
-	steps {
-		sh 'python3 test_app.py'
-		input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
-	}
-	}
+        stage('Install') {
+            steps {
+                sh 'echo "installing the required dependencies in requirements.txt using pip"'
+                sh 'pip install -r requirements.txt --user'
+            }
+        }
 
-	stage('Deploy')
-	{
-	steps {
-		echo "deploying the application"
-		sh "sudo nohup python3 app.py > log.txt 2>&1 &"
-	}
-	}
-}
+        stage('Test') {
+            steps {
+                sh 'echo "executing tests using pytest"'
+                sh 'pytest --html=reports/flask-test-report.html --self-contained-html test_app.py'
+            }
+        }
 
-post {
-		always {
-			echo 'The pipeline completed'
-			junit allowEmptyResults: true, testResults:'**/test_reports/*.xml'
-		}
-		success {				
-			echo "Flask Application Up and running!!"
-		}
-		failure {
-			echo 'Build stage failed'
-			error('Stopping early…')
-		}
-	}
+        stage('Deploy') {
+            steps {
+                echo 'deploying the application'
+                sh 'sudo nohup python3 app.py > log.txt 2>&1 &'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'The pipeline completed, publishing results as report'
+            // publish html
+            publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'flask-test-report.html',
+                reportName: 'Flask Test Results'
+            ]
+        }
+        success {
+            echo 'Flask Application Up and running!!'
+        }
+        failure {
+            echo 'Build stage failed'
+            error('Stopping early…')
+        }
+    }
 }
