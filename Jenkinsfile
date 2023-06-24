@@ -1,14 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            steps {
-                sh 'echo "building the repo"'
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-                sh "docker build -t flaskapp:${env.BUILD_ID} ."
-            }
-        }
-
+        
         stage('Install') {
             steps {
                 sh 'echo "installing the required dependencies in requirements.txt using pip"'
@@ -20,6 +13,15 @@ pipeline {
             steps {
                 sh 'echo "executing tests using pytest"'
                 sh 'python -m pytest --html=reports/flask-test-report.html --self-contained-html test_app.py'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'echo "building the repo"'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh "docker build -t flaskapp:${env.BUILD_ID} ."
+                sh "docker images"
             }
         }
 
