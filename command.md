@@ -81,6 +81,6 @@ docker run -p 8080:8080 -p 50000:50000 --restart=on-failure jenkins/jenkins:alpi
 
 java -jar jenkins.war --httpPort=8090
 
-
+Testing the trigger
 
 
