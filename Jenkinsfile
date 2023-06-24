@@ -25,9 +25,8 @@ pipeline {
 
         stage('Docker Delete Container') {
             steps {
-                echo 'Delete existing container'
-                sh "docker stop flaskdemo"
-                sh "docker rm flaskdemo"
+                echo 'Delete existing container if any'
+                sh 'docker ps -qa --filter "name=flaskdemo" | xargs -r docker rm -f'                
             }
         }
 
