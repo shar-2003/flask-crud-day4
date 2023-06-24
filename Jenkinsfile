@@ -19,14 +19,22 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'echo "executing tests using pytest"'
-                sh 'pytest --html=reports/flask-test-report.html --self-contained-html test_app.py'
+                sh 'python -m pytest --html=reports/flask-test-report.html --self-contained-html test_app.py'
+            }
+        }
+
+        stage('Docker Delete Container') {
+            steps {
+                echo 'Delete existing container'
+                sh "docker stop flaskdemo"
+                sh "docker rm flaskdemo"
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'deploying the application'
-                sh 'sudo nohup python3 app.py > log.txt 2>&1 &'
+                sh "docker run -itd -p 8070:5000 --name=flaskdemo flaskapp:${env.BUILD_ID}"
             }
         }
     }
